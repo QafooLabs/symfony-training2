@@ -16,20 +16,17 @@ class AppKernel extends Kernel
         return array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
+            new Acme\TrainingBundle\AcmeTrainingBundle(),
         );
     }
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
     {
         $loader->load(__DIR__ . '/config/services.yml');
-
-        $container->loadFromExtension('framework', [
-            'secret' => 'some secret here',
-        ]);
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {
-        $routes->add('/', HelloController::class . '::helloAction');
+        $routes->add('/', 'AcmeTrainingBundle:Hello:hello');
     }
 }

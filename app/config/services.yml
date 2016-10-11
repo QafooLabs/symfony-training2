@@ -1,3 +1,16 @@
+
+
+
+
+
+
+
+
+framework:
+    secret: "some secret here"
+    templating:
+        engines: ['twig']
+
 services:
     app.json_rpc_listener:
         class: "Acme\\TrainingBundle\\EventListener\\JsonRpcListener"
