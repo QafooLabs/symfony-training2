@@ -15,7 +15,7 @@ monolog:
     handlers:
         main:
             type: stream
-            path: %kernel.log_dir%/symfony.log
+            path: %kernel.logs_dir%/symfony.log
 
 services:
     app.exception_listener:
