@@ -9,7 +9,7 @@ class HelloController
 {
     public function helloAction(Request $request)
     {
-        return new Response('Hello World!');
+        return ['name' => $request->query->get('name')];
     }
 
     public function rpcAction($name)

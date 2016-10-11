@@ -1,6 +1,7 @@
 {
     "require": {
-        "symfony/symfony": "@dev"
+        "symfony/symfony": "@dev",
+        "symfony/monolog-bundle": "^2.11"
     },
     "autoload": {"psr-0": {"Acme\\": "src/"}}
 }

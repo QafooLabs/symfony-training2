@@ -11,9 +11,17 @@ framework:
     templating:
         engines: ['twig']
 
+monolog:
+    handlers:
+        main:
+            type: stream
+            path: %kernel.log_dir%/symfony.log
+
 services:
     app.exception_listener:
         class: 'Acme\TrainingBundle\EventListener\ExceptionListener'
+        arguments:
+            - "@logger"
         tags:
             - { name: "kernel.event_listener", event: "kernel.exception" }
             - { name: "kernel.event_listener", event: "kernel.view" }
