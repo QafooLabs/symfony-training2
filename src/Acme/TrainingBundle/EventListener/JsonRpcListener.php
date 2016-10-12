@@ -102,6 +102,7 @@ class JsonRpcListener
             'error' => [
                 'code' => $exception->getCode(),
                 'message' => $exception->getMessage(),
+                'stacktrace' => $exception->getTraceAsString(),
             ],
             'id' => $request->attributes->get('_json_rpc_id')
         ]));

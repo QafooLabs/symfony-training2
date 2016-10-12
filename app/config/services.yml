@@ -66,6 +66,11 @@ services:
     #    tags:
     #        - { name: "kernel.event_listener", event: "kernel.exception" }
     #        - { name: "kernel.event_listener", event: "kernel.view" }
+    app.vehicle_repository:
+        class: 'Acme\TrainingBundle\Entity\VehicleRepository'
+        factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
+        arguments:
+            - 'Acme\TrainingBundle\Entity\Vehicle'
 
     app.jwt_token_authenticator:
         class: Acme\TrainingBundle\Security\JwtAuthenticator
@@ -75,6 +80,8 @@ services:
         class: 'Acme\TrainingBundle\Controller\VehicleController'
         arguments:
             - "@doctrine.orm.default_entity_manager"
+            - "@doctrine.dbal.default_connection"
+            - "@app.vehicle_repository"
 
     app.json_rpc_listener:
         class: "Acme\\TrainingBundle\\EventListener\\JsonRpcListener"

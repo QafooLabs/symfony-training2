@@ -5,7 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Acme\TrainingBundle\Controller\HelloController;
-use Acme\TrainingBundle\HttpKernel\Kernel;
+use Acme\TrainingBundle\HttpKernel\MyKernel;
 
 class AppKernel extends MyKernel
 {
@@ -30,7 +30,6 @@ class AppKernel extends MyKernel
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
     {
         $loader->load(__DIR__ . '/config/services.yml');
-        $loader->load(__DIR__ . '/config/services_' . $this->getEnvironment() . '.yml');
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
