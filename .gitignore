@@ -2,3 +2,4 @@
 /app/logs
 /app/cache
 composer.lock
+/app/var/database.sqlite

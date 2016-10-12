@@ -2,7 +2,9 @@
     "require": {
         "symfony/symfony": "@dev",
         "symfony/monolog-bundle": "^2.11",
-        "lexik/jwt-authentication-bundle": "^1.7"
+        "lexik/jwt-authentication-bundle": "^1.7",
+        "doctrine/doctrine-bundle": "^1.6",
+        "doctrine/orm": "^2.5"
     },
     "autoload": {"psr-0": {"Acme\\": "src/"}}
 }

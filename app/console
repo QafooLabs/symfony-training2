@@ -11,6 +11,8 @@ set_time_limit(0);
 $loader = require __DIR__.'/../vendor/autoload.php';
 require __DIR__ . '/AppKernel.php';
 
+\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader([$loader, 'loadClass']);
+
 $input = new ArgvInput();
 $env = 'dev';
 $debug = true;

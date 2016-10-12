@@ -1,7 +1,9 @@
 <?php
 
-require_once __DIR__ . "/../vendor/autoload.php";
+$loader = require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/../app/AppKernel.php";
+
+\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader([$loader, 'loadClass']);
 
 use Symfony\Component\HttpFoundation\Request;
 
