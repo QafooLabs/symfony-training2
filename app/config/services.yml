@@ -17,6 +17,39 @@ monolog:
             type: stream
             path: %kernel.logs_dir%/symfony.log
 
+acme_training:
+    use_eu_soap: false
+
+lexik_jwt_authentication:
+    private_key_path: %kernel.root_dir%/var/jwt/private.pem
+    public_key_path: %kernel.root_dir%/var/jwt/public.pem
+    pass_phrase: pass
+    token_ttl: 86400
+
+
+security:
+    firewalls:
+        api:
+            pattern: ^/api/(?!token)
+            guard:
+                authenticators:
+                    - app.jwt_token_authenticator
+
+    access_control:
+        - { path: /api/token-authentication, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: [ROLE_USER, ROLE_API_USER] }
+
+    providers:
+        in_memory:
+            memory:
+                users:
+                    user:
+                        password: userpass
+                        roles: 'ROLE_USER'
+
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+
 services:
     app.exception_listener:
         class: 'Acme\TrainingBundle\EventListener\ExceptionListener'
@@ -25,6 +58,10 @@ services:
         tags:
             - { name: "kernel.event_listener", event: "kernel.exception" }
             - { name: "kernel.event_listener", event: "kernel.view" }
+
+    app.jwt_token_authenticator:
+        class: Acme\TrainingBundle\Security\JwtAuthenticator
+        arguments: ['@lexik_jwt_authentication.encoder']
 
     #app.json_rpc_listener:
     #    class: "Acme\\TrainingBundle\\EventListener\\JsonRpcListener"

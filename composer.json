@@ -1,7 +1,8 @@
 {
     "require": {
         "symfony/symfony": "@dev",
-        "symfony/monolog-bundle": "^2.11"
+        "symfony/monolog-bundle": "^2.11",
+        "lexik/jwt-authentication-bundle": "^1.7"
     },
     "autoload": {"psr-0": {"Acme\\": "src/"}}
 }

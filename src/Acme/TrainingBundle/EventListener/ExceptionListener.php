@@ -3,6 +3,7 @@
 namespace Acme\TrainingBundle\EventListener;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Psr\Log\LoggerInterface;
 
 interface PublicExceptionInterface
 {
@@ -12,7 +13,7 @@ class ExceptionListener
 {
     private $logger;
 
-    public function __construct($logger)
+    public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
@@ -27,13 +28,11 @@ class ExceptionListener
             $statusCode = $exception->getStatusCode();
         }
 
+        $this->logger->err((string)$exception);
+
         $whitelistException = ['DomainException'];
 
-        if ($exception instanceof PublicExceptionInterface) {
-            $message = $exception->getMessage();
-        } else {
-            $message = 'Application Error';
-        }
+        $message = $exception->getMessage();
 
         $event->setResponse(new JsonResponse(
             ['error' => [

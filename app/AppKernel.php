@@ -15,9 +15,11 @@ class AppKernel extends Kernel
     {
         return array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Acme\TrainingBundle\AcmeTrainingBundle(),
+            new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
         );
     }
 
@@ -29,5 +31,7 @@ class AppKernel extends Kernel
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {
         $routes->add('/', 'AcmeTrainingBundle:Hello:hello');
+        $routes->add('/api/token', 'AcmeTrainingBundle:Hello:tokenAuthentication');
+        $routes->add('/api/secure', 'AcmeTrainingBundle:Hello:secure');
     }
 }
