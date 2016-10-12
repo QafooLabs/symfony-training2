@@ -15,9 +15,13 @@ class HelloController extends Controller
         return ['name' => $request->query->get('name')];
     }
 
-    public function rpcAction($name)
+    public function rpcAction($name, $language = 'en')
     {
-        return "Hello {$name}";
+        if ($language == 'en') {
+            return "Hello {$name}";
+        } else if ($language == 'de') {
+            return "Moin {$name}";
+        }
     }
 
     public function tokenAuthenticationAction(Request $request)

@@ -1,7 +1,12 @@
 framework:
     secret: "some secret here"
+    profiler: true
     templating:
         engines: ['twig']
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
 
 doctrine:
     dbal:
@@ -54,21 +59,28 @@ security:
         Symfony\Component\Security\Core\User\User: plaintext
 
 services:
-    app.exception_listener:
-        class: 'Acme\TrainingBundle\EventListener\ExceptionListener'
-        arguments:
-            - "@logger"
-        tags:
-            - { name: "kernel.event_listener", event: "kernel.exception" }
-            - { name: "kernel.event_listener", event: "kernel.view" }
+    #app.exception_listener:
+    #    class: 'Acme\TrainingBundle\EventListener\ExceptionListener'
+    #    arguments:
+    #        - "@logger"
+    #    tags:
+    #        - { name: "kernel.event_listener", event: "kernel.exception" }
+    #        - { name: "kernel.event_listener", event: "kernel.view" }
 
     app.jwt_token_authenticator:
         class: Acme\TrainingBundle\Security\JwtAuthenticator
         arguments: ['@lexik_jwt_authentication.encoder']
 
-    #app.json_rpc_listener:
-    #    class: "Acme\\TrainingBundle\\EventListener\\JsonRpcListener"
-    #    tags:
-    #        - { name: "kernel.event_listener", event: "kernel.request", priority: 255 }
-    #        - { name: "kernel.event_listener", event: "kernel.view" }
-    #        - { name: "kernel.event_listener", event: "kernel.exception" }
+    app.vehicle_controller:
+        class: 'Acme\TrainingBundle\Controller\VehicleController'
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+
+    app.json_rpc_listener:
+        class: "Acme\\TrainingBundle\\EventListener\\JsonRpcListener"
+        arguments:
+            - "@service_container"
+        tags:
+            - { name: "kernel.event_listener", event: "kernel.request", priority: 255 }
+            - { name: "kernel.event_listener", event: "kernel.view" }
+            - { name: "kernel.event_listener", event: "kernel.exception" }

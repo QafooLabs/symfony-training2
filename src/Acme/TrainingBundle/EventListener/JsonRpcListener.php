@@ -4,7 +4,21 @@ namespace Acme\TrainingBundle\EventListener;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Acme\TrainingBundle\Controller\HelloController;
+
+/*
+class Context
+{
+    public $jwtToken;
+    public $traceId;
+}
+
+$insect->callAll([
+    $insect->createcall('service://product/get', ['id' = 1234]),
+    $insect->createcall('GET', 'http://....', [], [], []),
+]);
+*/
 
 class JsonRpcListener
 {
@@ -12,7 +26,15 @@ class JsonRpcListener
     // <tag name="rpc.service" path="/foo" />
     private $services = [
         "/hello" => HelloController::class,
+        "/vehicle" => 'app.vehicle_controller',
     ];
+
+    private $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
     public function onKernelRequest($event)
     {
@@ -32,11 +54,9 @@ class JsonRpcListener
             throw new NotFoundHttpException();
         }
 
-        $request->attributes->set('_controller', sprintf(
-            '%s::%s',
-            $this->services[$request->getPathInfo()],
-            $content["method"] . "Action"
-        ));
+        $service = $this->container->get($this->services[$request->getPathInfo()]);
+
+        $request->attributes->set('_controller', [$service, $content["method"] . "Action"]);
 
         if (isset($content["params"])) {
             // Only supports JsonRpc v2.0 with named arguments for simplicity

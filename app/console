@@ -19,6 +19,6 @@ $debug = true;
 if ($debug) {
     Debug::enable();
 }
-$kernel = new AppKernel($env, $debug);
+$kernel = AppKernel::createFromEnvironment();
 $application = new Application($kernel);
 $application->run($input);
